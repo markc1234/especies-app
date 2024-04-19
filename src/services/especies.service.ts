@@ -3,13 +3,13 @@ export async function getEspecies() {
   if (!response.ok) {
     throw new Error("HTTP error, status = " + response.status);
   }
-  const data: Especie[] = await response.json();
+  const data: TEspecie[] = await response.json();
   return data;
 }
 
-export interface Especie {
+export interface TEspecie {
   sp_id: number;
-  reino: string;
+  reino: TReino;
   phydiv: null;
   clase: string;
   orden: string;
@@ -19,3 +19,10 @@ export interface Especie {
   imagen: null | string;
   likes: number;
 }
+
+export const TReinoEnum = {
+  ANIMALIA: "ANIMALIA",
+  PLANTAE: "PLANTAE",
+  FUNGI: "FUNGI",
+} as const;
+export type TReino = (typeof TReinoEnum)[keyof typeof TReinoEnum];
