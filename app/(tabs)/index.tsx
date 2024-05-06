@@ -23,11 +23,6 @@ export default function HomeScreen() {
     refetch,
   } = useFilteredEspecies(filter);
 
-  const especiesFiltradas =
-    filter === null
-      ? especies
-      : especies.filter((especie) => especie.reino === filter);
-
   //
   // Event handlers
   //
@@ -76,7 +71,7 @@ export default function HomeScreen() {
             <Button title="Reintentar" onPress={handleReintentar} />
           </View>
         )}
-        <EspecieList especies={especiesFiltradas} />
+        <EspecieList especies={especies} />
       </View>
     </SafeAreaView>
   );
