@@ -1,5 +1,5 @@
 import { EspecieDetail } from "@/src/components/EspecieDetail";
-import { Text } from "@/src/components/Text";
+import { TextNunitoSans } from "@/src/components/TextNunitoSans";
 import { useEspecie } from "@/src/services/especies.hooks";
 import { themeColors, themeStyles } from "@/src/theme/theme";
 import { FontAwesome } from "@expo/vector-icons";
@@ -23,7 +23,7 @@ export default function EspecieShowScreen() {
   if (isFetching) {
     return (
       <View style={styles.container}>
-        <Text>Cargando...</Text>
+        <TextNunitoSans>Cargando...</TextNunitoSans>
       </View>
     );
   }
@@ -31,7 +31,7 @@ export default function EspecieShowScreen() {
   if (isError) {
     return (
       <View style={styles.container}>
-        <Text>ERROR!</Text>
+        <TextNunitoSans>ERROR!</TextNunitoSans>
       </View>
     );
   }
@@ -39,7 +39,7 @@ export default function EspecieShowScreen() {
   if (!especie) {
     return (
       <View style={styles.container}>
-        <Text>La especie no existe</Text>
+        <TextNunitoSans>La especie no existe</TextNunitoSans>
       </View>
     );
   }

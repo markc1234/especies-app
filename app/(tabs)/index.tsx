@@ -1,6 +1,6 @@
 import { EspecieList } from "@/src/components/EspecieList";
 import { HomeFilter } from "@/src/components/HomeFilter";
-import { Text } from "@/src/components/Text";
+import { TextNunitoSans } from "@/src/components/TextNunitoSans";
 import { useFilteredEspecies } from "@/src/services/especies.hooks";
 import { TReino, TReinoEnum } from "@/src/services/especies.service";
 import { themeColors, themeStyles } from "@/src/theme/theme";
@@ -47,7 +47,7 @@ export default function HomeScreen() {
     <SafeAreaView style={themeStyles.screen}>
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <Text style={styles.title}>Home</Text>
+          <TextNunitoSans style={styles.title}>Home</TextNunitoSans>
           <View style={styles.filtersContainer}>
             <Pressable onPress={handleRemoveFilter}>
               <HomeFilter filter={filter} name={null} />
@@ -64,10 +64,12 @@ export default function HomeScreen() {
           </View>
         </View>
 
-        {isFetching && <Text>Cargando...</Text>}
+        {isFetching && <TextNunitoSans>Cargando...</TextNunitoSans>}
         {!isFetching && isError && (
           <View>
-            <Text style={styles.textError}>Error al cargar las especies</Text>
+            <TextNunitoSans style={styles.textError}>
+              Error al cargar las especies
+            </TextNunitoSans>
             <Button title="Reintentar" onPress={handleReintentar} />
           </View>
         )}
