@@ -1,13 +1,8 @@
-import DateTimePicker, {
-  IOSNativeProps,
-  WindowsNativeProps,
-} from "@react-native-community/datetimepicker";
 import { FC, useState } from "react";
-import { TextStyle, View, Text, Button, Pressable } from "react-native";
+import { TextStyle, Text, Pressable } from "react-native";
 import DateTimePickerModal, {
   ReactNativeModalDateTimePickerProps,
 } from "react-native-modal-datetime-picker";
-import { TextNunitoSans } from "./TextNunitoSans";
 
 type DateTimeModalInputProps = Omit<
   ReactNativeModalDateTimePickerProps,
@@ -19,6 +14,7 @@ type DateTimeModalInputProps = Omit<
 export const DateTimeModalInput: FC<DateTimeModalInputProps> = (props) => {
   const {
     style,
+    mode,
     date,
     placeholder,
     placeholderStyle,
@@ -40,15 +36,23 @@ export const DateTimeModalInput: FC<DateTimeModalInputProps> = (props) => {
     hideDatePicker();
   };
 
+  const formattedDate =
+    mode === "time"
+      ? date?.toLocaleTimeString()
+      : mode === "datetime"
+      ? date?.toLocaleString()
+      : date?.toLocaleDateString();
+
   return (
     <Pressable onPress={showDatePicker} style={style}>
       {placeholder && <Text style={placeholderStyle}>{placeholder}</Text>}
-      <Text style={{ color: "black" }}>{date?.toLocaleDateString() ?? ""}</Text>
+      <Text style={{ color: "black" }}>{formattedDate ?? ""}</Text>
       <DateTimePickerModal
         isVisible={isDatePickerVisible}
         onConfirm={handleConfirm}
         onCancel={hideDatePicker}
         date={date}
+        mode={mode}
         {...restProps}
       />
     </Pressable>
