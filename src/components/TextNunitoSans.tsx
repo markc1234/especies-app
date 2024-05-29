@@ -1,6 +1,8 @@
 import { TextProps, Text as RNText } from "react-native";
 import { themeStyles } from "@/src/theme/theme";
 import { useFonts } from "expo-font";
+import { useEffect } from "react"
+import { SplashScreen } from "expo-router";
 
 const regularMap = {
   100: "NunitoSans_10pt_ExtraLight",
@@ -27,6 +29,14 @@ export const TextNunitoSans = ({ style, ...props }: TextProps): JSX.Element => {
     NunitoSans_10pt_ExtraBold: require("@/assets/fonts/NunitoSans_10pt-ExtraBold.ttf"),
     NunitoSans_10pt_Black: require("@/assets/fonts/NunitoSans_10pt-Black.ttf"),
   });
+
+  useEffect(() => {
+    if (fontError) throw fontError
+
+    if(fontsLoaded) {
+      SplashScreen.hideAsync()
+    }
+  }, [fontsLoaded, fontError])
 
   if (!fontsLoaded && !fontError) {
     return (

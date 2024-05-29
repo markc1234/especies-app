@@ -1,6 +1,6 @@
-import { EspecieProvider } from "@/src/context/especies.context";
+// import { EspecieProvider } from "@/src/context/especies.context";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Stack } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 
 // Seteamos la ruta inicial
 export const unstable_settings = {
@@ -9,6 +9,8 @@ export const unstable_settings = {
 
 // Creamos una instancia de QueryClient, "configuración global de de Tanstack Query"
 const queryClient = new QueryClient();
+
+SplashScreen.preventAutoHideAsync();
 
 // Layout principal de la aplicación
 export default function RootLayout() {

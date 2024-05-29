@@ -1,5 +1,6 @@
-import { EspecieList } from "@/src/components/EspecieList";
-import { HomeFilter } from "@/src/components/HomeFilter";
+// import { EspecieList } from "@/src/components/EspecieList";
+// import { HomeFilter } from "@/src/components/HomeFilter";
+import EspecieList from "@/src/components/EspecieList";
 import { TextNunitoSans } from "@/src/components/TextNunitoSans";
 import { useFilteredEspecies } from "@/src/services/especies.hooks";
 import { TReino, TReinoEnum } from "@/src/services/especies.service";
@@ -7,11 +8,14 @@ import { themeColors, themeStyles } from "@/src/theme/theme";
 import { useState } from "react";
 import {
   Button,
+  FlatList,
   Pressable,
-  SafeAreaView,
   StyleSheet,
+  Text,
   View,
 } from "react-native";
+
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
   const [filter, setFilter] = useState<TReino | null>(null);
@@ -43,12 +47,13 @@ export default function HomeScreen() {
   //
   // Render
   //
+
   return (
     <SafeAreaView style={themeStyles.screen}>
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <TextNunitoSans style={styles.title}>Home</TextNunitoSans>
-          <View style={styles.filtersContainer}>
+          <TextNunitoSans style={styles.title}>Hola Usuario</TextNunitoSans>
+          {/* <View style={styles.filtersContainer}>
             <Pressable onPress={handleRemoveFilter}>
               <HomeFilter filter={filter} name={null} />
             </Pressable>
@@ -61,7 +66,7 @@ export default function HomeScreen() {
             <Pressable onPress={handleFilter(TReinoEnum.PLANTAE)}>
               <HomeFilter filter={filter} name={TReinoEnum.PLANTAE} />
             </Pressable>
-          </View>
+          </View> */}
         </View>
 
         {isFetching && <TextNunitoSans>Cargando...</TextNunitoSans>}
@@ -73,6 +78,8 @@ export default function HomeScreen() {
             <Button title="Reintentar" onPress={handleReintentar} />
           </View>
         )}
+
+        {/* muestra todas las especies version 2 */}
         <EspecieList especies={especies} />
       </View>
     </SafeAreaView>
