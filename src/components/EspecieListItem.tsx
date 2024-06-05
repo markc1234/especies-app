@@ -1,4 +1,5 @@
-import { StyleSheet, Text, Pressable, Image } from 'react-native'
+import { StyleSheet, Text, Pressable } from 'react-native'
+import { Image } from 'expo-image'
 import { EspecieHome } from '../adapters/homeAdapters'
 import { Link } from 'expo-router'
 import { TextNunitoSans } from './TextNunitoSans'
@@ -12,21 +13,19 @@ type EspecieListItemProp = {
 }
 
 const EspecieListItem = ({ especie }: EspecieListItemProp) => {
-  return (
-    <Link href={`especie/${especie.sp_id}`} asChild>
-        <Pressable style={ styles.container }>
-            <Image 
-                source={{ uri: especie.imagen || defaultImage}}
-                style={ styles.image }
-                resizeMode='contain'
-            />
+    return (
+        <Link href={`especie/${especie.sp_id}`} asChild>
+            <Pressable style={ styles.container }>
+                <Image 
+                    source={{ uri: especie.imagen || defaultImage}}
+                    style={ styles.image }
+                />
 
-            <TextNunitoSans style={styles.title}>{especie.nombre_cientifico}</TextNunitoSans>
-        </Pressable>
-    </Link>
-  )
+                <TextNunitoSans style={styles.title}>{especie.nombre_cientifico}</TextNunitoSans>
+            </Pressable>
+        </Link>
+    )
 }
-// LOGRAR QUE LAS CARDS TENGA EL DISEÑO CORRECTO
 
 export default EspecieListItem
 

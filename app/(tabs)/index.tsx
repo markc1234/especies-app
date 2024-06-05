@@ -1,6 +1,5 @@
-// import { EspecieList } from "@/src/components/EspecieList";
-// import { HomeFilter } from "@/src/components/HomeFilter";
 import EspecieList from "@/src/components/EspecieList";
+import { HomeFilter } from "@/src/components/HomeFilter";
 import { TextNunitoSans } from "@/src/components/TextNunitoSans";
 import { useFilteredEspecies } from "@/src/services/especies.hooks";
 import { TReino, TReinoEnum } from "@/src/services/especies.service";
@@ -53,7 +52,8 @@ export default function HomeScreen() {
       <View style={styles.container}>
         <View style={styles.titleContainer}>
           <TextNunitoSans style={styles.title}>Hola Usuario</TextNunitoSans>
-          {/* <View style={styles.filtersContainer}>
+          <View style={styles.filtersContainer}>
+          
             <Pressable onPress={handleRemoveFilter}>
               <HomeFilter filter={filter} name={null} />
             </Pressable>
@@ -66,7 +66,8 @@ export default function HomeScreen() {
             <Pressable onPress={handleFilter(TReinoEnum.PLANTAE)}>
               <HomeFilter filter={filter} name={TReinoEnum.PLANTAE} />
             </Pressable>
-          </View> */}
+            
+          </View> 
         </View>
 
         {isFetching && <TextNunitoSans>Cargando...</TextNunitoSans>}
@@ -79,7 +80,7 @@ export default function HomeScreen() {
           </View>
         )}
 
-        {/* muestra todas las especies version 2 */}
+        {/* muestra todas las especies en Home */}
         <EspecieList especies={especies} />
       </View>
     </SafeAreaView>
@@ -96,13 +97,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 15,
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
     color: themeColors.textBase,
+    padding: 7
   },
-  titleContainer: { gap: 35 },
+  titleContainer: { 
+    gap: 35 
+  },
   textError: {
     color: "red",
   },

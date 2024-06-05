@@ -25,7 +25,7 @@ export default function TabLayout() {
           ),
         }}
       />
-      {/* <Tabs.Screen
+      <Tabs.Screen
         name="report"
         options={{
           title: "", // evito mostrar label debajo del icono
@@ -33,7 +33,7 @@ export default function TabLayout() {
             <FontAwesome5 name="edit" size={24} color={color} />
           ),
         }}
-      /> */}
+      />
     </Tabs>
   );
 }

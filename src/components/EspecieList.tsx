@@ -10,15 +10,13 @@ type EspecieListProp = {
 
 const EspecieList = ({ especies }: EspecieListProp) => {
   return (
-    <SafeAreaView>
-        <FlatList 
-            data={especies}
-            renderItem={({ item }) => <EspecieListItem especie={item}/>}
-            numColumns={2}
-            contentContainerStyle={{ gap: 20 }}
-            columnWrapperStyle={{ gap: 32 }}
-        />
-    </SafeAreaView>
+      <FlatList 
+          data={especies}
+          renderItem={({ item }) => <EspecieListItem especie={item}/>}
+          numColumns={2}
+          contentContainerStyle={{ gap: 20 }}
+          columnWrapperStyle={{ gap: 32 }}
+      />
   )
 }
 
