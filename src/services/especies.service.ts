@@ -4,9 +4,20 @@ export async function getEspecies() {
   const response = await axios.get<TEspecie[]>(
     // toma el valor de .env.local
     // resulta en http://localhost:3000/especies
-    `${process.env.EXPO_PUBLIC_API_URL_LOCAL}/especies`
+    `${process.env.EXPO_PUBLIC_API_URL}/especies`
   );
   return response.data;
+}
+
+export async function sendReport( reporte: TReporte ) {
+  const formData = new FormData()
+
+  formData.append("sp_id", reporte.sp_id.toString())
+  formData.append("fecha", reporte.fecha.toDateString())
+  // formData.append("hora", reporte.hora.toLocalTimeString())
+  formData.append("latitud", reporte.latitud.toString())
+  formData.append("longitud", reporte.longitud.toString())
+  formData.append("descripcion", reporte.descripcion.toString())
 }
 
 export interface TEspecie {
@@ -20,6 +31,16 @@ export interface TEspecie {
   origen: string;
   imagen: null | string;
   likes: number;
+}
+
+interface TReporte {
+  sp_id: number,
+  fecha: Date,
+  hora: Date,
+  latitud: number,
+  longitud: number,
+  descripcion: string,
+  imagen: null,
 }
 
 export const TReinoEnum = {

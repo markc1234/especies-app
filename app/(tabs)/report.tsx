@@ -7,6 +7,7 @@ import { Foundation } from "@expo/vector-icons";
 import { Image } from "expo-image";
 import { launchImageLibraryAsync, MediaTypeOptions } from "expo-image-picker";
 import { CameraView, useCameraPermissions, CameraViewRef } from "expo-camera";
+import { useForegroundPermissions } from "expo-location"
 
 export default function ReportScreen() {
   const [latitud, setLatitud] = useState("");
@@ -19,6 +20,8 @@ export default function ReportScreen() {
   const [showCamera, setShowCamera] = useState(false);
   const [permission, requestPermission] = useCameraPermissions();
   const cameraRef = useRef<CameraViewRef>();
+
+  const [status, requestLocationPermission] = useForegroundPermissions()
 
   const numberInputType: "numeric" | "numbers-and-punctuation" =
     Platform.select({
@@ -85,6 +88,13 @@ export default function ReportScreen() {
             />
           </View>
         </View>
+
+          {/* DEPENDENCIAS */}
+          {/* MODAL SELECTOR */}
+          {/* expo location */}
+          {/* agregar permisos en el app.json */}
+          {/* USAR EXPO LINKING */}
+          
         {/* {showCamera && (
           <View style={{ flexDirection: "row" }}>
             <CameraView

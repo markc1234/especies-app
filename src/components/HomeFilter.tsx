@@ -1,25 +1,34 @@
-import { View } from 'react-native'
+import React from 'react';
+import { View, StyleSheet } from 'react-native';
 import { TReino } from "@/src/services/especies.service";
 import { TextNunitoSans } from './TextNunitoSans';
+import { themeColors } from "@/src/theme/theme";
 
 type HomeFilterProps = {
-    filter: TReino | null,
-    name: string | null,
-}
+    name: string | null;
+    isSelected: boolean;
+};
 
-export const HomeFilter = ({ filter, name}: HomeFilterProps) => {
-    console.log(`${filter} y ${name} son iguales: ${filter === name}`)
+export const HomeFilter = ({ name, isSelected }: HomeFilterProps) => {
     return (
-        <View>
-            {name ? (
-            <TextNunitoSans style={{color: "white"}}>
-                {name}
-            </TextNunitoSans>
-            ): (<TextNunitoSans style={{color: "white"}}>
-                TODOS
-            </TextNunitoSans>)
-            }
+        <View style={[styles.filterContainer, isSelected && styles.selectedContainer]}>
+        <TextNunitoSans style={styles.text}>
+            {name ? name : "TODOS"}
+        </TextNunitoSans>
         </View>
-    )
-}
+    );
+};
 
+const styles = StyleSheet.create({
+    filterContainer: {
+        paddingVertical: 10,
+        paddingHorizontal: 10,
+    },
+    selectedContainer: {
+        borderBottomWidth: 2,
+        borderBottomColor: themeColors.primary,
+    },
+    text: {
+        fontSize: 10,
+    }
+});

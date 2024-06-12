@@ -7,10 +7,8 @@ import { themeColors, themeStyles } from "@/src/theme/theme";
 import { useState } from "react";
 import {
   Button,
-  FlatList,
   Pressable,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
 
@@ -53,21 +51,19 @@ export default function HomeScreen() {
         <View style={styles.titleContainer}>
           <TextNunitoSans style={styles.title}>Hola Usuario</TextNunitoSans>
           <View style={styles.filtersContainer}>
-          
             <Pressable onPress={handleRemoveFilter}>
-              <HomeFilter filter={filter} name={null} />
+              <HomeFilter name={null} isSelected={filter === null} />
             </Pressable>
             <Pressable onPress={handleFilter(TReinoEnum.ANIMALIA)}>
-              <HomeFilter filter={filter} name={TReinoEnum.ANIMALIA} />
+              <HomeFilter name={TReinoEnum.ANIMALIA} isSelected={filter === TReinoEnum.ANIMALIA} />
             </Pressable>
             <Pressable onPress={handleFilter(TReinoEnum.FUNGI)}>
-              <HomeFilter filter={filter} name={TReinoEnum.FUNGI} />
+              <HomeFilter name={TReinoEnum.FUNGI} isSelected={filter === TReinoEnum.FUNGI} />
             </Pressable>
             <Pressable onPress={handleFilter(TReinoEnum.PLANTAE)}>
-              <HomeFilter filter={filter} name={TReinoEnum.PLANTAE} />
+              <HomeFilter name={TReinoEnum.PLANTAE} isSelected={filter === TReinoEnum.PLANTAE} />
             </Pressable>
-            
-          </View> 
+          </View>
         </View>
 
         {isFetching && <TextNunitoSans>Cargando...</TextNunitoSans>}
@@ -100,7 +96,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
     color: themeColors.textBase,
     padding: 7
