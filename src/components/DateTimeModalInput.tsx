@@ -1,15 +1,17 @@
 import { FC, useState } from "react";
-import { TextStyle, Text, Pressable } from "react-native";
+import { TextStyle, Pressable, StyleSheet, StyleProp, ViewStyle } from "react-native";
 import DateTimePickerModal, {
   ReactNativeModalDateTimePickerProps,
 } from "react-native-modal-datetime-picker";
+import { CustomTextInput } from "./CustomTextInput"
 
 type DateTimeModalInputProps = Omit<
   ReactNativeModalDateTimePickerProps,
   "isVisible" | "onCancel"
 > & {
   placeholder?: string;
-  placeholderStyle?: TextStyle;
+  containerStyle?: StyleProp<ViewStyle>;
+  inputStyle?: StyleProp<TextStyle>;
 };
 export const DateTimeModalInput: FC<DateTimeModalInputProps> = (props) => {
   const {
@@ -17,7 +19,8 @@ export const DateTimeModalInput: FC<DateTimeModalInputProps> = (props) => {
     mode,
     date,
     placeholder,
-    placeholderStyle,
+    containerStyle,
+    inputStyle,
     onConfirm,
     ...restProps
   } = props;
@@ -44,17 +47,25 @@ export const DateTimeModalInput: FC<DateTimeModalInputProps> = (props) => {
       : date?.toLocaleDateString();
 
   return (
-    <Pressable onPress={showDatePicker} style={style}>
-      {placeholder && <Text style={placeholderStyle}>{placeholder}</Text>}
-      <Text style={{ color: "black" }}>{formattedDate ?? ""}</Text>
-      <DateTimePickerModal
-        isVisible={isDatePickerVisible}
-        onConfirm={handleConfirm}
-        onCancel={hideDatePicker}
-        date={date}
-        mode={mode}
-        {...restProps}
+    <Pressable onPress={showDatePicker} style={containerStyle}>
+      <CustomTextInput
+        placeholder={placeholder}
+        value={formattedDate ?? ""}
+        editable={false}
+        style={[styles.textInput, inputStyle]}
       />
+        <DateTimePickerModal
+          isVisible={isDatePickerVisible}
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+          date={date}
+          mode={mode}
+          {...restProps}
+        />
     </Pressable>
   );
 };
+
+const styles = StyleSheet.create({
+  textInput: { color: "black" },
+});

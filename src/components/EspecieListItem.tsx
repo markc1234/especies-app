@@ -1,12 +1,8 @@
-import { StyleSheet, Text, Pressable } from 'react-native'
+import { StyleSheet, Pressable } from 'react-native'
 import { Image } from 'expo-image'
 import { EspecieHome } from '../adapters/homeAdapters'
 import { Link } from 'expo-router'
 import { TextNunitoSans } from './TextNunitoSans'
-
-// export const defaultImage = "https://img.icons8.com/?size=100&id=j1UxMbqzPi7n&format=png&color=000000"
-
-const defaultImage = "https://s3-alpha-sig.figma.com/img/99d9/973e/5a2c716c34ac7de430b266089a11d1d0?Expires=1717977600&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=GUgZxGzod9C3~HrN8ye6b2Yn4MnS-mollfawYFuva2OCKEoiaOqxbgttkyIHrugCS1efsI5pij6twqyrYPO-LjT~7GLYp35jEnmzjdaXRVmcsIFzXlODIBAEQhKVotfZjvE3HFESuKIk6NFLLwMlaNfaVly~mAf2qMrFK8JAY0WEwoeeoWnTY5nLEY3qYRKpf4BZPTpMJXJTD8brkvFslUkNICKvjOrjgP7cpbXKLQB3lZU~hoJupXXOx5aFHvGpzaNlji8fFAe-UrXjVoDWJWrZSIHwjKNYw5XxlwwFerJEl4E5Yh0CocBMZpa3CHwQnTxGu1TtPxVTqX3iXyCbVQ__"
 
 type EspecieListItemProp = {
     especie: EspecieHome
@@ -17,7 +13,8 @@ const EspecieListItem = ({ especie }: EspecieListItemProp) => {
         <Link href={`especie/${especie.sp_id}`} asChild>
             <Pressable style={ styles.container }>
                 <Image 
-                    source={{ uri: especie.imagen || defaultImage}}
+                // error, no se importa la imagen placeholder.png
+                    source={{ uri: especie.imagen || require("../../assets/images/placeholder.png")}}
                     style={ styles.image }
                 />
 
