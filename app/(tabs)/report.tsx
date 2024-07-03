@@ -1,4 +1,3 @@
-import { themeStyles } from "@/src/theme/theme";
 import { useState } from "react";
 import {
   Platform,
@@ -11,8 +10,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { DateTimeModalInput } from "@/src/components/DateTimeModalInput";
 import { Foundation } from "@expo/vector-icons";
 import { Image } from "expo-image";
-// import { launchImageLibraryAsync, MediaTypeOptions } from "expo-image-picker";
-// import { CameraView, useCameraPermissions, CameraViewRef } from "expo-camera";
+import * as ImagePicker from "expo-image-picker";
 import { useLocalSearchParams } from "expo-router";
 import { TextNunitoSans } from "@/src/components/TextNunitoSans";
 import { EspecieSelector } from "@/src/components/EspecieSelector";
@@ -20,9 +18,12 @@ import { CustomButton } from "@/src/components/CustomButton2";
 import { CustomTextInput } from "@/src/components/CustomTextInput";
 import { Map } from "@/src/components/Map";
 import { TakePictureBtn } from "@/src/components/TakePictureBtn";
+import { sendReporte, TReporte } from "@/src/services/especies.service";
+import { themeColors, themeStyles } from "@/src/theme/theme";
 
 export default function ReportScreen() {
   const params = useLocalSearchParams<{ reportSpId: string }>();
+
   const [prevSpId, setPrevSpId] = useState<string | null>(null);
   const [spId, setSpId] = useState<string | null>(params?.reportSpId ?? null);
 
@@ -33,7 +34,7 @@ export default function ReportScreen() {
   const [descripcion, setDescripcion] = useState("");
   const [imagen, setImagen] = useState<string | null>(null);
 
-  const [errors, setErrors] = useState<string[]>([])
+  const [errors, setErrors] = useState<string[]>([]);
 
   if (params?.reportSpId && prevSpId !== params.reportSpId) {
     setPrevSpId(params.reportSpId);
@@ -45,27 +46,21 @@ export default function ReportScreen() {
       default: "numeric",
       ios: "numbers-and-punctuation",
     });
-    Platform.select({ ios: "numbers-and-punctuation", default: "numeric" })
 
   const pickImage = async () => {
-    // No permissions request is necessary for launching the image library
-    // let result = await launchImageLibraryAsync({
-    //   mediaTypes: MediaTypeOptions.Images,
-    //   allowsMultipleSelection: false,
-    // });
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsMultipleSelection: false,
+      base64: true,
+    });
 
-    // if (!result.canceled) {
-    //   setImagen(result.assets[0].uri);
-    // }
-
-    // IMPLEMENTAR LO SIGUIENTE
-    // TODO: Obtengo la imagen de la galeria como base64
-
-    // TODO: seteo la imagen
+    if (!result.canceled && result.assets.length > 0) {
+      const imageUri = `data:image/jpeg;base64,${result.assets[0].base64}`;
+      setImagen(imageUri);
+    }
   };
 
   const enviarReporte = async () => {
-    // Chequeo errores
     let errorsArr = [];
     if (spId === null) {
       errorsArr.push("spId");
@@ -86,20 +81,34 @@ export default function ReportScreen() {
       errorsArr.push("descripcion");
     }
     setErrors(errorsArr);
-    // no continuo si hay errores
+
     if (errorsArr.length > 0) {
       return;
     }
 
+    const reporte: TReporte = {
+      sp_id: parseInt(spId!, 10),
+      fecha,
+      hora,
+      latitud: parseFloat(latitud),
+      longitud: parseFloat(longitud),
+      descripcion,
+      imagen,
+    };
 
-    // reseteo formulario
-    setSpId(null);
-    setLatitud("");
-    setLongitud("");
-    setFecha(new Date());
-    setHora(new Date());
-    setDescripcion("");
-    setImagen(null);
+    try {
+      await sendReporte(reporte);
+    } catch (error) {
+      console.error("Error en el envio del reporte:", error);
+    } finally {
+      setSpId(null);
+      setLatitud("");
+      setLongitud("");
+      setFecha(new Date());
+      setHora(new Date());
+      setDescripcion("");
+      setImagen(null);
+    }
   };
 
   const insets = useSafeAreaInsets();
@@ -166,19 +175,21 @@ export default function ReportScreen() {
           inputStyle={errors.includes("hora") ? styles.error : null}
         />
       </View>
-
-      <CustomTextInput
-        placeholder="Descripción"
-        onChangeText={setDescripcion}
-        value={descripcion}
-        returnKeyType="done"
-        multiline
-        numberOfLines={3}
-        style={[
-          styles.descripcionInput,
-          errors.includes("descripcion") ? styles.error : null,
-        ]}
-      />
+      
+      <View style={styles.descriptionContainer}>
+        <CustomTextInput
+          placeholder="Descripción"
+          onChangeText={setDescripcion}
+          value={descripcion}
+          returnKeyType="done"
+          multiline
+          numberOfLines={3}
+          style={[
+            styles.descripcionInput,
+            errors.includes("descripcion") ? styles.error : null,
+          ]}
+        />
+      </View>
 
       <View style={styles.imgCaptureContainer}>
         <Image
@@ -199,20 +210,11 @@ export default function ReportScreen() {
       </View>
 
       <Pressable onPress={enviarReporte}>
-        <CustomButton label="Reportar avistje" />
+        <CustomButton label="Reportar avistaje" />
       </Pressable>
     </ScrollView>
   );
 }
-
-          {/* DEPENDENCIAS */}
-          {/* MODAL SELECTOR */}
-          {/* expo location */}
-          {/* agregar permisos en el app.json */}
-          {/* USAR EXPO LINKING */}
-
-          // IMPORTANTE
-          // ver por que hay que usar insets
 
 const styles = StyleSheet.create({
   container: {
@@ -232,7 +234,12 @@ const styles = StyleSheet.create({
     gap: 10,
     justifyContent: "space-between",
   },
+  descriptionContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+  },
   descripcionInput: {
+    width: "100%",
     height: 88,
     paddingLeft: 30,
   },
@@ -248,5 +255,16 @@ const styles = StyleSheet.create({
   error: {
     borderColor: "rgb(239 68 68)",
     borderWidth: 3,
+  },
+  buttonWrapper: {
+    width: "100%",
+    alignItems: "center",
+  },
+  buttonContainer: {
+    backgroundColor: themeColors.primary,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    alignItems: "center",
   },
 });

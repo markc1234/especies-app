@@ -14,7 +14,7 @@ const EspecieListItem = ({ especie }: EspecieListItemProp) => {
             <Pressable style={ styles.container }>
                 <Image 
                 // error, no se importa la imagen placeholder.png
-                    source={{ uri: especie.imagen || require("../../assets/images/placeholder.png")}}
+                    source={{ uri: especie.imagen || undefined }}
                     style={ styles.image }
                 />
 

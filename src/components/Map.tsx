@@ -1,8 +1,9 @@
 import { ImageBackground } from "expo-image";
-import { StyleSheet, Pressable } from "react-native";
+import { StyleSheet, Pressable, Alert, Linking } from "react-native";
 import { themeColors } from "@/src/theme/theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Dispatch, FC, SetStateAction } from "react";
+import * as Location from "expo-location"
 
 type MapProps = {
   setLatitud: Dispatch<SetStateAction<string>>;
@@ -11,11 +12,40 @@ type MapProps = {
 export const Map: FC<MapProps> = ({ setLatitud, setLongitud }) => {
 
   const handlePress = async () => {
+    let { status } = await Location.requestForegroundPermissionsAsync();
     // TODO: si el permiso fue rechazado, abrir configuracion
+    if (status === 'denied') {
+      Alert.alert(
+        "Permiso denegado",
+        "Permisos de ubicación son necesarios para esta funcionalidad.",
+        [
+          { text: "Abrir configuración", onPress: () => Linking.openSettings() },
+          { text: "Cancelar", style: "cancel" }
+        ]
+      );
+      return;
+    }
 
     // TODO: Si el permiso podemos pregunta, preguntamos
+    if (status !== 'granted') {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert(
+          "Permiso denegado",
+          "Permisos de ubicación son necesarios para esta funcionalidad.",
+          [
+            { text: "Abrir configuración", onPress: () => Linking.openSettings() },
+            { text: "Cancelar", style: "cancel" }
+          ]
+        );
+        return;
+      }
+    }
 
     // TODO: Si tenmos acceso, nos quedamos con la posicion y seteamos latitud y longitud
+    let location = await Location.getCurrentPositionAsync({});
+    setLatitud(location.coords.latitude.toString());
+    setLongitud(location.coords.longitude.toString());
     }
 
   return (

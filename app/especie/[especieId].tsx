@@ -104,11 +104,13 @@ export default function EspecieShowScreen() {
         </View>
         
         <View style={styles.buttonWrapper}>
-          <CustomButton
-            title="Reportar avistaje"
-            handlePress={() => router.navigate("/report")}
-            containerStyles={styles.buttonContainer}
-          />
+        <CustomButton
+          title="Reportar avistaje"
+          handlePress={() => router.navigate(`/report?reportSpId=${especie.sp_id}`)}
+          containerStyles={styles.buttonContainer}
+        />
+
+
         </View>
       </View>
       

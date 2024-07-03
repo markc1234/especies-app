@@ -47,7 +47,7 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Quiero acceder a tus fotos. Te voy a robar todos los datos."
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ],
       [
