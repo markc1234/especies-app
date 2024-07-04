@@ -9,12 +9,13 @@ type EspecieListItemProp = {
 }
 
 const EspecieListItem = ({ especie }: EspecieListItemProp) => {
+
     return (
         <Link href={`especie/${especie.sp_id}`} asChild>
             <Pressable style={ styles.container }>
                 <Image 
-                // error, no se importa la imagen placeholder.png
                     source={{ uri: especie.imagen || undefined }}
+                    placeholder={require("@/assets/images/placeholder.png")}
                     style={ styles.image }
                 />
 
