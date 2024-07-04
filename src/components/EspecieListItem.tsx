@@ -17,6 +17,7 @@ const EspecieListItem = ({ especie }: EspecieListItemProp) => {
                     source={{ uri: especie.imagen || undefined }}
                     placeholder={require("@/assets/images/placeholder.png")}
                     style={ styles.image }
+                    placeholderContentFit="cover"
                 />
 
                 <TextNunitoSans style={styles.title}>{especie.nombre_cientifico}</TextNunitoSans>

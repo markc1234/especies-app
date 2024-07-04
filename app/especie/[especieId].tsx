@@ -51,6 +51,7 @@ export default function EspecieShowScreen() {
         source={{ uri: especie.imagen || undefined }} 
         style={styles.imageBackground}
         placeholder={require("@/assets/images/placeholder.png")}
+        placeholderContentFit="cover"
         >
         <LinearGradient
           start={{ x: 0.5, y: 1 }}
