@@ -4,7 +4,7 @@ export async function getEspecies() {
   const response = await axios.get<TEspecie[]>(
     // toma el valor de .env.local
     // resulta en http://localhost:3000/especies
-    `${process.env.EXPO_PUBLIC_API_URL}/especies`
+    `${process.env.EXPO_PUBLIC_HOME2_API_URL}/especies`
   );
   return response.data;
 }
@@ -44,7 +44,7 @@ export async function sendReporte(reporte: TReporte) {
   // );
 
   return axios.post(
-    `${process.env.EXPO_PUBLIC_API_URL}/especies/${reporte.sp_id}/reportar`,
+    `${process.env.EXPO_PUBLIC_HOME2_API_URL}/especies/${reporte.sp_id}/reportar`,
     formData,
     { headers: { "Content-Type": "multipart/form-data" }}
   );

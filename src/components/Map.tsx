@@ -12,9 +12,9 @@ type MapProps = {
 export const Map: FC<MapProps> = ({ setLatitud, setLongitud }) => {
 
   const handlePress = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
+    let { status, canAskAgain } = await Location.requestForegroundPermissionsAsync();
     // TODO: si el permiso fue rechazado, abrir configuracion
-    if (status === 'denied') {
+    if (status === 'denied' || !canAskAgain) {
       Alert.alert(
         "Permiso denegado",
         "Permisos de ubicación son necesarios para esta funcionalidad.",
