@@ -51,7 +51,7 @@ function fontWeightFromValue(value: number | string): string {
   }
 }
 
-export const TextNunitoSans = ({ style, ...props }: TextProps): JSX.Element => {
+export const TextNunitoSans = ({ style, ...props }: TextProps) => {
   const [fontsLoaded, fontError] = useFonts({
     NunitoSans_10pt_ExtraLight: require("@/assets/fonts/NunitoSans_10pt-ExtraLight.ttf"),
     NunitoSans_10pt_Light: require("@/assets/fonts/NunitoSans_10pt-Light.ttf"),
