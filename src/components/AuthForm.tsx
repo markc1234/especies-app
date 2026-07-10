@@ -39,7 +39,7 @@ export const AuthForm = () => {
         Alert.alert("Éxito", "Usuario registrado correctamente.");
         }
     } catch (error: any) {
-        console.error(error);
+        console.log("Fallo de login:", error.code);
         let errorMessage = "Ocurrio un error inesperado.";
         if (error.code === "auth/invalid-credential") {
         errorMessage = "Correo o contraseña incorrectos.";
