@@ -20,10 +20,19 @@ import { Map } from "@/src/components/Map";
 import { TakePictureBtn } from "@/src/components/TakePictureBtn";
 import { sendReporte, TReporte } from "@/src/services/especies.service";
 import { themeColors, themeStyles } from "@/src/theme/theme";
+import { useAuth } from "@/src/context/auth.context";
+import { auth } from "@/src/services/firebase";
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword
+} from "firebase/auth";
+import { AuthForm } from "@/src/components/AuthForm";
 
 export default function ReportScreen() {
+  const { user } = useAuth();
   const params = useLocalSearchParams<{ reportSpId: string }>();
-
+  const insets = useSafeAreaInsets();
+  
   const [prevSpId, setPrevSpId] = useState<string | null>(null);
   const [spId, setSpId] = useState<string | null>(params?.reportSpId ?? null);
 
@@ -35,6 +44,11 @@ export default function ReportScreen() {
   const [imagen, setImagen] = useState<string | null>(null);
 
   const [errors, setErrors] = useState<string[]>([]);
+
+  // si el usuario no esta logueado, mostrar la pantalla de login
+  if (!user) {
+    return <AuthForm />;
+  }
 
   if (params?.reportSpId && prevSpId !== params.reportSpId) {
     setPrevSpId(params.reportSpId);
@@ -111,7 +125,6 @@ export default function ReportScreen() {
     }
   };
 
-  const insets = useSafeAreaInsets();
 
   return (
     <ScrollView

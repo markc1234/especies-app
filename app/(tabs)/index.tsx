@@ -4,6 +4,7 @@ import { TextNunitoSans } from "@/src/components/TextNunitoSans";
 import { useFilteredEspecies } from "@/src/services/especies.hooks";
 import { TReino, TReinoEnum } from "@/src/services/especies.service";
 import { themeColors, themeStyles } from "@/src/theme/theme";
+import { useAuth } from "@/src/context/auth.context";
 import { useState } from "react";
 import {
   Button,
@@ -15,6 +16,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
+  const { user, logout } = useAuth();
   const [filter, setFilter] = useState<TReino | null>(null);
 
   const {
@@ -49,7 +51,17 @@ export default function HomeScreen() {
     <SafeAreaView style={themeStyles.screen}>
       <View style={styles.container}>
         <View style={styles.titleContainer}>
-          <TextNunitoSans style={styles.title}>Hola Usuario</TextNunitoSans>
+          <View style={styles.headerRow}>
+            <TextNunitoSans style={styles.title}>
+              {user ? `Hola ${user.email?.split("@")[0]}` : "Hola Anónimo"}
+            </TextNunitoSans>
+
+            {user && (
+              <Pressable style={styles.logoutButton} onPress={logout}>
+                <TextNunitoSans style={styles.logoutText}>Cerrar Sesión</TextNunitoSans>
+              </Pressable>
+            )}
+          </View>
           <View style={styles.filtersContainer}>
             <Pressable onPress={handleRemoveFilter}>
               <HomeFilter name={null} isSelected={filter === null} />
@@ -106,5 +118,22 @@ const styles = StyleSheet.create({
   },
   textError: {
     color: "red",
+  },
+  headerRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingRight: 7,
+  },
+  logoutButton: {
+    backgroundColor: themeColors.heart,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 30,
+  },
+  logoutText: {
+    color: "#ffffff",
+    fontSize: 12,
+    fontWeight: "bold",
   },
 });

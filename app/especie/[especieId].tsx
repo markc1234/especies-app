@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: themeColors.screenBackground,
   },
   imageBackground: {
     height: 300,

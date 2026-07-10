@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "8002398442",
+    "project_id": "expo-fiirebase-auth-example",
+    "storage_bucket": "expo-fiirebase-auth-example.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:8002398442:android:5ad902cd501d4d56a28f93",
+        "android_client_info": {
+          "package_name": "com.marcos.especiesapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZvu5NMw541lHE1czazoMFZR1LpQr4X74"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

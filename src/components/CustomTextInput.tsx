@@ -13,5 +13,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     paddingLeft: 20,
     paddingRight: 3,
+    color: "black",
   },
 });

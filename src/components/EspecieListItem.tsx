@@ -11,7 +11,7 @@ type EspecieListItemProp = {
 const EspecieListItem = ({ especie }: EspecieListItemProp) => {
 
     return (
-        <Link href={`especie/${especie.sp_id}`} asChild>
+        <Link href={`especie/${especie.sp_id}` as any} asChild>
             <Pressable style={ styles.container }>
                 <Image 
                     source={{ uri: especie.imagen || undefined }}

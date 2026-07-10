@@ -1,6 +1,7 @@
 // import { EspecieProvider } from "@/src/context/especies.context";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SplashScreen, Stack } from "expo-router";
+import { AuthProvider } from "@/src/context/auth.context";
 
 // Seteamos la ruta inicial
 export const unstable_settings = {
@@ -17,15 +18,18 @@ export default function RootLayout() {
   return (
     // Proveedor de Tanstack Query
     <QueryClientProvider client={queryClient}>
-      {/* Navegación principal, dos Stacks: (tabs) y la pantalla de detalle de una especie */}
-      {/* Seguir en app/(tabs)/_layout ¿Por qué? Porque la ruta inicial arriba en "unstable_settings" */}
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="especie/[especieId]"
-          options={{ headerShown: false }}
-        />
-      </Stack>
+      {/* Proveedor de autenticacion de firebase */}
+      <AuthProvider>
+        {/* Navegación principal, dos Stacks: (tabs) y la pantalla de detalle de una especie */}
+        {/* Seguir en app/(tabs)/_layout ¿Por qué? Porque la ruta inicial arriba en "unstable_settings" */}
+        <Stack>
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="especie/[especieId]"
+            options={{ headerShown: false }}
+          />
+        </Stack>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }
