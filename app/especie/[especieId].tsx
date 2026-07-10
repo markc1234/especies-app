@@ -1,13 +1,17 @@
+import { useEffect, useState } from "react";
 import { TextNunitoSans } from "@/src/components/TextNunitoSans";
 import { useEspecie } from "@/src/services/especies.hooks";
 import { themeColors, themeStyles } from "@/src/theme/theme";
 import { Image, ImageBackground } from "expo-image";
 import { useLocalSearchParams, router } from "expo-router";
+import { FontAwesome } from "@expo/vector-icons";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CustomButton from "@/src/components/CustomButton";
-import { FontAwesome } from "@expo/vector-icons";
+
+import { doc, onSnapshot, setDoc, increment } from "firebase/firestore";
+import { db } from "@/src/services/firebase";
 
 export default function EspecieShowScreen() {
   const searchParams = useLocalSearchParams();
@@ -18,6 +22,36 @@ export default function EspecieShowScreen() {
       : 1;
 
   const { data: especie, isFetching, isError } = useEspecie(spId);
+
+  const [likesCount, setLikesCount] = useState<number>(0);
+
+  useEffect(() => {
+    // referencia al documento de la especie en la coleccion "likes"
+    const docRef = doc(db, "likes", spId.toString());
+
+    // nos suscribimos a los cambios del documento en tiempo real
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        setLikesCount(docSnap.data().count || 0);
+      } else {
+        setLikesCount(0); // si el documento no existe aun, tiene 0 likes
+      }
+    });
+
+    // cancelamos la suscripcion al salir de la pantalla
+    return () => unsubscribe();
+  }, [spId]);
+
+  // incrementa likes
+  const handleLike = async () => {
+    const docRef = doc(db, "likes", spId.toString());
+    try {
+      // usamos increment(1) para evitar condiciones de carrera (evita que dos clicks simultáneos se pisen)
+      await setDoc(docRef, { count: increment(1) }, { merge: true });
+    } catch (error) {
+      console.error("Error al dar like:", error);
+    }
+  };
 
   if (isFetching) {
     return (
@@ -71,9 +105,11 @@ export default function EspecieShowScreen() {
               <FontAwesome name="chevron-circle-left" size={24} color="white" />
             </TouchableOpacity>
 
-            <TouchableOpacity activeOpacity={0.9} style={styles.likeButton}>
+            <TouchableOpacity activeOpacity={0.8} style={styles.likeButton} onPress={handleLike}>
               <Image source={heartImage} style={styles.likeIcon} />
-              <TextNunitoSans style={styles.like}>0 likes</TextNunitoSans>
+              <TextNunitoSans style={styles.like}>
+                {likesCount} {likesCount === 1 ? "like" : "likes"}
+              </TextNunitoSans>
             </TouchableOpacity>
       
           </View>
