@@ -5,6 +5,7 @@ export const themeColors = {
   textBase: "white",
   primary: "#BEDE61",
   heart: "#EF5DA8",
+  danger: "#DC2626",
 };
 
 export const themeStyles = StyleSheet.create({
