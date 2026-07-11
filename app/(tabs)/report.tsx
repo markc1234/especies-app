@@ -1,5 +1,6 @@
 import { useState } from "react";
 import {
+  Alert,
   Platform,
   Pressable,
   ScrollView,
@@ -63,7 +64,7 @@ export default function ReportScreen() {
 
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ["images"],
       allowsMultipleSelection: false,
       base64: true,
     });
@@ -112,6 +113,7 @@ export default function ReportScreen() {
 
     try {
       await sendReporte(reporte);
+      Alert.alert("Éxito", "Avistaje reportado correctamente.");
     } catch (error) {
       console.error("Error en el envio del reporte:", error);
     } finally {
